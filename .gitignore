@@ -1,6 +1,9 @@
+.idea/
 src/*/bin/
+src/*/obj/*
 src/*/obj/
 
 tests/*/bin/
 tests/*/obj/
+tests/*/obj/*
 
