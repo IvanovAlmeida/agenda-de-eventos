@@ -1,53 +1,25 @@
-- name: dotnet-tests-report
-  # You may pin to the exact commit or the version.
-  # uses: zyborg/dotnet-tests-report@ce730c068bb73480dcb37c02d40890bf8b44c953
-  uses: zyborg/dotnet-tests-report@v1.4.4
-  with:
-    # Path to the test results file which will be used to generate a report.
+name: .NET
 
-    test_results_path: # optional
-   
-    project_path: # optional
-    # When executing the unit tests against the `project_path`, if this input parameter is `true`, do not restore the project before building.
-    no_restore: # optional
-    # When executing the unit tests against the `project_path`, if this input parameter is `true`, do not build the project before executing tests.
-    no_build: # optional
-    # When executing the unit tests against the `project_path`, this input parameter allows you to specify the configuration passed to the msbuild process, such as `Release` or `Debug`.
-    msbuild_configuration: # optional
-    # When executing the unit tests against the `project_path`, this input parameter allows you to specify the verbosity level of the msbuild process. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
-    msbuild_verbosity: # optional
-    # The name of the report object that will be attached to the Workflow Run.  Defaults to the name `TEST_RESULTS_<datetime>` where `<datetime>` is in the form `yyyyMMdd_hhmmss`.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main, development ]
 
-    report_name: # optional
-    # The title of the report that will be embedded in the report itself, which defaults to the same as the `report_name` input.
+jobs:
+  build:
 
-    report_title: # optional
-    # GITHUB_TOKEN to authenticate against API calls to attach report to Workflow Run.
+    runs-on: ubuntu-latest
 
-    github_token: # optional
-    # If true, will skip attaching the Tests Result report to the Workflow Run using a Check Run.  Useful if you just want to produce a Gist-based report via the `gist_name` and `gist_token` input parameters.
-
-    skip_check_run: # optional
-
-    gist_name: # optional
-    # If specified, the Test Repor
-
-    gist_badge_label: # optional
-    # If Gist badge generation is enabled by providing a
-
-    gist_badge_message: # optional
-    # If true, will create the Tests Results Gist will be created as 
-
-    gist_is_secret: # optional
-    # GitHub OAuth/PAT token to be used for accessing Gist to store
-
-    gist_token: # optional
-    set_check_status_from_test_outcome: # optional
-
-    trx_xsl_path: # optional
-    # Useful for passing extra parameters to dotnet test. Eg, '--filter category=unit'
-
-    extra_test_parameters: # optional
-    # If set to true, the build will fail if at least one test fails      
-
-    fail_build_on_failed_tests: # optional
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
