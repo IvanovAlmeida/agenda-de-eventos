@@ -3,18 +3,31 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <UserSecretsId>aspnet-AgendaDeEventos.Application-D33C1F94-8409-4D49-BC19-32FA1AE5325F</UserSecretsId>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.12">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AgendaDeEventos.Data\AgendaDeEventos.Data.csproj" />
+      <ProjectReference Include="..\AgendaDeEventos.Domain\AgendaDeEventos.Domain.csproj" />
     </ItemGroup>
 
 </Project>
