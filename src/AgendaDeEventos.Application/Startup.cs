@@ -1,14 +1,8 @@
 using AgendaDeEventos.Application.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using AgendaDeEventos.Data.Context;
-using AgendaDeEventos.Domain.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,8 +34,7 @@ namespace AgendaDeEventos.Application
                     options.LoginPath = "/auth/login";
                     options.LogoutPath = "/auth/logout";;
                 });
-
-
+            
             services.AddDependenciesInjections();
             services.AddRazorPages()
                     .AddRazorRuntimeCompilation();
@@ -70,11 +63,10 @@ namespace AgendaDeEventos.Application
             app.UseAuthentication();
             app.UseAuthorization();
             
-            var cookiePolicyOptions = new CookiePolicyOptions
+            app.UseCookiePolicy(new CookiePolicyOptions
             {
                 MinimumSameSitePolicy = SameSiteMode.Strict,
-            };
-            app.UseCookiePolicy(cookiePolicyOptions);
+            });
             
             app.UseEndpoints(endpoints =>
             {

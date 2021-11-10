@@ -20,7 +20,6 @@ namespace AgendaDeEventos.Application.Controllers
         public AuthController()
         {
             _usuarios = CriarUsuarios();
-            
         }
         
         [HttpGet("login")]
@@ -74,8 +73,7 @@ namespace AgendaDeEventos.Application.Controllers
                 new(ClaimTypes.Role, "Administrator"),
             };
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             
             // TODO: Move ExpiresUtc to appsettings
             var authProperties = new AuthenticationProperties
@@ -89,10 +87,8 @@ namespace AgendaDeEventos.Application.Controllers
         }
         
         [NonAction]
-        private Usuario BuscarUsuarioPorEmail(string email)
-        {
-            return _usuarios.FirstOrDefault(u => u.Email.Equals(email));
-        }
+        private Usuario BuscarUsuarioPorEmail(string email) 
+            => _usuarios.FirstOrDefault(u => u.Email.Equals(email));
 
         [NonAction]
         private bool VerificarUsuario(Usuario usuario, string senha)
@@ -140,11 +136,7 @@ namespace AgendaDeEventos.Application.Controllers
                 },
             };
 
-            usuarios.ForEach(u =>
-            {
-                u.Senha = hasher.HashPassword(u, u.Email);
-            });
-            
+            usuarios.ForEach(u => u.Senha = hasher.HashPassword(u, u.Email));
             return usuarios;
         }
     }
