@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using AgendaDeEventos.Domain.Models;
 
-namespace AgendaDeEventos.Application.Models.Usuarios
+namespace AgendaDeEventos.Application.ViewModels.Usuarios
 {
     public class UsuarioAdicionarViewModel
     {

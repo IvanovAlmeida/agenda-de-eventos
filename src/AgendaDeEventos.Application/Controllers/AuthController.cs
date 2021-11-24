@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AgendaDeEventos.Application.Models.Auth;
+using AgendaDeEventos.Application.ViewModels.Auth;
+using AgendaDeEventos.Domain.Interfaces.Repository;
 using AgendaDeEventos.Domain.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,11 +16,11 @@ namespace AgendaDeEventos.Application.Controllers
     [Route("[controller]")]
     public class AuthController : BaseController
     {
-        private readonly List<Usuario> _usuarios;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public AuthController()
+        public AuthController(IUsuarioRepository usuarioRepository)
         {
-            _usuarios = CriarUsuarios();
+            _usuarioRepository = usuarioRepository;
         }
         
         [HttpGet("login")]
@@ -38,7 +39,7 @@ namespace AgendaDeEventos.Application.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var usuario = BuscarUsuarioPorEmail(loginViewModel.Email);
+            var usuario = await _usuarioRepository.BuscarPorEmail(loginViewModel.Email);
             if (usuario == null)
             {
                 ModelState.AddModelError("", "Usuário ou Senha inválidos!");
@@ -68,6 +69,7 @@ namespace AgendaDeEventos.Application.Controllers
         {
             var claims = new List<Claim>
             {
+                new("id", usuario.Id.ToString()),
                 new(ClaimTypes.Name, usuario.Nome),
                 new(ClaimTypes.Email, usuario.Email),
                 new(ClaimTypes.Role, "Administrator"),
@@ -87,57 +89,11 @@ namespace AgendaDeEventos.Application.Controllers
         }
         
         [NonAction]
-        private Usuario BuscarUsuarioPorEmail(string email) 
-            => _usuarios.FirstOrDefault(u => u.Email.Equals(email));
-
-        [NonAction]
         private bool VerificarUsuario(Usuario usuario, string senha)
         {
             var hasher = new PasswordHasher<Usuario>();
             var result = hasher.VerifyHashedPassword(usuario, usuario.Senha, senha);
             return result == PasswordVerificationResult.Success;
-        }
-        
-        [NonAction]
-        private List<Usuario> CriarUsuarios()
-        {
-            var hasher = new PasswordHasher<Usuario>();
-            var usuarios = new List<Usuario>
-            {
-                new Usuario
-                {
-                    Id = 1,
-                    Nome = "Usuário 1",
-                    Email = "usuario1@email.com"
-                },
-                new Usuario
-                {
-                    Id = 2,
-                    Nome = "Usuário 2",
-                    Email = "usuario2@email.com"
-                },
-                new Usuario
-                {
-                    Id = 3,
-                    Nome = "Usuário 3",
-                    Email = "usuario3@email.com"
-                },
-                new Usuario
-                {
-                    Id = 4,
-                    Nome = "Usuário 4",
-                    Email = "usuario4@email.com"
-                },
-                new Usuario
-                {
-                    Id = 5,
-                    Nome = "Usuário 5",
-                    Email = "usuario5@email.com"
-                },
-            };
-
-            usuarios.ForEach(u => u.Senha = hasher.HashPassword(u, u.Email));
-            return usuarios;
         }
     }
 }

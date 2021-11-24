@@ -2,7 +2,7 @@ using AgendaDeEventos.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AgendaDeEventos.Application.Data.Mappings
+namespace AgendaDeEventos.Data.Mappings
 {
     public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AgendaDeEventos.Application.Models.Auth
+namespace AgendaDeEventos.Application.ViewModels.Auth
 {
     public class LoginViewModel
     {
