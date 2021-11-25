@@ -10,9 +10,9 @@ namespace AgendaDeEventos.Domain.Interfaces.Repository
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entidade
     {
-        Task<IEnumerable<Entidade>> Buscar(ICustomQueryable search);
-        Task<IEnumerable<Entidade>> Buscar(Expression<Func<TEntity, bool>> predicate);
-        Task<Entidade> BuscarPorId(int id);
+        Task<IEnumerable<TEntity>> Buscar(ICustomQueryable search);
+        Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> BuscarPorId(int id);
         Task<int> Count(Expression<Func<TEntity, bool>> predicate = null);
     }
 }

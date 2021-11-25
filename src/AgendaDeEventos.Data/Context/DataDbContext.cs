@@ -29,7 +29,7 @@ namespace AgendaDeEventos.Data.Context
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var claim = _httpContext?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type.Equals("id"));
-            var userId = int.Parse(claim?.Value);
+            var userId = claim == null ? 0 :  int.Parse(claim.Value);
             
             var entries = ChangeTracker
                 .Entries()

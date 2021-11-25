@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AgendaDeEventos.Application.ViewModels.Auth;
+using AgendaDeEventos.Domain.Interfaces.Notificador;
 using AgendaDeEventos.Domain.Interfaces.Repository;
 using AgendaDeEventos.Domain.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -18,7 +19,7 @@ namespace AgendaDeEventos.Application.Controllers
     {
         private readonly IUsuarioRepository _usuarioRepository;
 
-        public AuthController(IUsuarioRepository usuarioRepository)
+        public AuthController(IUsuarioRepository usuarioRepository, INotificador notificador): base(notificador)
         {
             _usuarioRepository = usuarioRepository;
         }
@@ -42,13 +43,13 @@ namespace AgendaDeEventos.Application.Controllers
             var usuario = await _usuarioRepository.BuscarPorEmail(loginViewModel.Email);
             if (usuario == null)
             {
-                ModelState.AddModelError("", "Usuário ou Senha inválidos!");
+                NotificarErro("Usuário ou Senha inválidos!");
                 return View();
             }
             
             if (!VerificarUsuario(usuario, loginViewModel.Senha))
             {
-                ModelState.AddModelError("", "Usuário ou Senha inválidos!");
+                NotificarErro("Usuário ou Senha inválidos!");
                 return View();
             }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AgendaDeEventos.Domain.Interfaces.Notificador;
 using AgendaDeEventos.Domain.Interfaces.Repository;
 using AgendaDeEventos.Domain.Interfaces.Services;
 using AgendaDeEventos.Domain.Interfaces.UnitOfWork;
@@ -12,11 +13,13 @@ namespace AgendaDeEventos.Domain.Services
     public class UsuarioService: IUsuarioService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly INotificador _notificador;
         private readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, IUnitOfWork unitOfWork)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IUnitOfWork unitOfWork, INotificador notificador)
         {
             _unitOfWork = unitOfWork;
+            _notificador = notificador;
             _usuarioRepository = usuarioRepository;
         }
 
@@ -25,7 +28,8 @@ namespace AgendaDeEventos.Domain.Services
             var usuarios = await _usuarioRepository.Buscar(u => u.Email.Equals(usuario.Email));
             if (usuarios.Any())
             {
-                throw new Exception("Já existe um usuário com esse email");;
+                _notificador.Notificar("Já existe um usuário com esse Email!");
+                return null;
             }
 
             var hasher = new PasswordHasher<Usuario>();

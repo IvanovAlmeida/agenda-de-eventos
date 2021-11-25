@@ -23,7 +23,7 @@ namespace AgendaDeEventos.Data.Repository
             DbSet = db.Set<TEntity>();;
         }
 
-        public async Task<IEnumerable<Entidade>> Buscar(ICustomQueryable searchEntidade)
+        public async Task<IEnumerable<TEntity>> Buscar(ICustomQueryable searchEntidade)
         {
             return await DbSet
                             .AsNoTrackingWithIdentityResolution()
@@ -31,7 +31,7 @@ namespace AgendaDeEventos.Data.Repository
                             .Apply(searchEntidade).ToListAsync();
         }
         
-        public async Task<IEnumerable<Entidade>> Buscar(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
             return await DbSet
                             .AsNoTrackingWithIdentityResolution()
@@ -39,7 +39,7 @@ namespace AgendaDeEventos.Data.Repository
                             .ToListAsync();
         }
         
-        public async Task<Entidade> BuscarPorId(int id)
+        public async Task<TEntity> BuscarPorId(int id)
         {
             return await DbSet
                             .AsNoTrackingWithIdentityResolution()

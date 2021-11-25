@@ -1,7 +1,102 @@
-@model List<AgendaDeEventos.Domain.Models.Usuario>
+@using AgendaDeEventos.Domain.Models
+@using AgendaDeEventos.Data.SearchModels
+@model IEnumerable<AgendaDeEventos.Domain.Models.Usuario>
 
 @{
     ViewData["Title"] = "Usuários";
     Layout = "_Layout";
+    
+    var search = (UsuarioSearch)ViewData["search"];
 }
 
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title d-flex justify-content-between">
+            <span class="">
+                Usuários
+            </span>
+
+            <a class="btn btn-outline-success" asp-action="Adicionar">
+                <i class="bi bi-plus-lg"></i>
+                Novo
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title d-flex justify-content-between">
+            <span class="">
+                Buscar
+            </span>
+        </h5>
+        
+        <form asp-action="Index" method="get" class="row pt-2 pb-2 formBusca">
+            <div class="col-auto">
+                <label for="nome" class="visually-hidden">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="@search?.Nome" placeholder="Nome">
+            </div>
+            <div class="col-auto">
+                <label for="email" class="visually-hidden">Email</label>
+                <input type="text" class="form-control" id="email" name="email" value="@search?.Email" placeholder="Email">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="button" class="btn btn-secondary" onclick="limparFormBusca()">Limpar</button>
+            </div>
+        </form>
+        
+        <hr>
+        
+        <table class="table table-striped table-responsive mt-3">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col" class="text-center">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var usuario in @Model)
+            {
+                <tr>
+                    <th scope="row">@usuario.Id</th>
+                    <td>@usuario.Nome</td>
+                    <td>@usuario.Email</td>
+                    <td class="align-content-center text-center">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-sm btn-primary" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script >
+    function limparFormBusca() {
+        console.log("limpando");
+        let form = document.querySelector(".formBusca");        
+        if (form == null) {
+            return;
+        }
+        
+        let inputs = form.querySelectorAll('input');
+        inputs.forEach((input, key) => {
+            input.value = '';
+        });
+    }
+</script>

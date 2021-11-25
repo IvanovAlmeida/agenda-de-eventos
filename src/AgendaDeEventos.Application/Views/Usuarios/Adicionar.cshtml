@@ -9,7 +9,10 @@
 <div class="card">
   <div class="card-body">
     <form class="row g-3" asp-action="Adicionar">
-      <div class="col-md-12">
+      <h3 class="text-center mb-4 mt-3">Cadastrar novo Usuário</h3>
+      <hr>
+      <div asp-validation-summary="ModelOnly" class="card d-flex text-white bg-danger"></div>
+      <div class="col-md-6">
         <label asp-for="Nome" class="form-label">Nome</label>
         <input asp-for="Nome" class="form-control">
         <span asp-validation-for="Nome" class="text-danger"></span>
@@ -17,23 +20,24 @@
       <div class="col-md-6">
         <label asp-for="Email" class="form-label">Email</label>
         <input asp-for="Email" class="form-control">
-        <span asp-validation-for="Email" class="text-danger"></span>                     
+        <span asp-validation-for="Email" class="text-danger"></span>
       </div>
-      <div class="col-12">
+      <div class="col-6">
         <label asp-for="Senha" class="form-label">Senha</label>
         <input asp-for="Senha" class="form-control">
-        <span asp-validation-for="Senha" class="text-danger"></span>           
+        <span asp-validation-for="Senha" class="text-danger"></span>
       </div>
-      <div class="col-12">
+      <div class="col-6">
         <label asp-for="Grupo" class="form-label">Grupo</label>
-        <select asp-for="Grupo" asp-items="Html.GetEnumSelectList<Grupo>()"  class="form-select">
-            <option selected="selected" disabled value="">Selecione um Grupo</option>
+        <select asp-for="Grupo" asp-items="Html.GetEnumSelectList<Grupo>()" class="form-select">
+          <option selected="selected" disabled value="">Selecione um Grupo</option>
         </select>
-        <span asp-validation-for="Grupo" class="text-danger"></span>           
+        <span asp-validation-for="Grupo" class="text-danger"></span>
       </div>
-      
+
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a class="btn btn-outline-danger" asp-action="Index">Cancelar</a>
       </div>
     </form>
   </div>

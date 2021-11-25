@@ -1,9 +1,11 @@
 using AgendaDeEventos.Data.Context;
 using AgendaDeEventos.Data.Repository;
 using AgendaDeEventos.Data.UnitOfWork;
+using AgendaDeEventos.Domain.Interfaces.Notificador;
 using AgendaDeEventos.Domain.Interfaces.Repository;
 using AgendaDeEventos.Domain.Interfaces.Services;
 using AgendaDeEventos.Domain.Interfaces.UnitOfWork;
+using AgendaDeEventos.Domain.Notificador;
 using AgendaDeEventos.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,7 @@ namespace AgendaDeEventos.Application.Configuration
             services.AddScoped<DataDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<INotificador, Notificador>();
             
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
